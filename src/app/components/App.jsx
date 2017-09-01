@@ -10,6 +10,13 @@ class App extends Component {
     value: '',
   };
 
+  componentDidMount() {
+    let lsObj = JSON.parse(localStorage.getItem('favGems'));
+    if (!lsObj) {
+      localStorage.setItem('favGems', JSON.stringify([]))
+    }
+  }
+
   handleOnChange = e => {
     this.setState({value: e.target.value});
   };
@@ -19,6 +26,26 @@ class App extends Component {
 
     const {doGetGemsAsync} = this.props;
     doGetGemsAsync(this.state.value);
+  };
+
+  handleClickFavorite = e => {
+    const {gemsList, toggleFavorite} = this.props;
+    const index = Number(e.target.id.split('_')[1]);
+    let names = JSON.parse(localStorage.getItem('favGems'));
+
+    if (gemsList[index].favorite) {
+      names.splice(names.indexOf(gemsList[index].name), 1);
+    }
+    else {
+      names.push(gemsList[index].name);
+    }
+
+    this.updateLocalStorage(names);
+    toggleFavorite(index);
+  };
+
+  updateLocalStorage = data => {
+    localStorage.setItem('favGems', JSON.stringify(data));
   };
 
   render() {
@@ -34,15 +61,15 @@ class App extends Component {
           handleOnSubmit={this.handleOnSubmit}
           handleOnChange={this.handleOnChange} />
 
-        {gemsAreLoading && <Spinner classNames={'main__spinner'} />}
-
         {
-          noData ?
+          gemsAreLoading ?
+            <Spinner classNames={'main__spinner'} /> :
+            noData ?
             <div>
               <h1>Search your favorite Ruby Gems.</h1>
             </div> :
             <div className="gems__list-container">
-              { gemsList.map(e => <ListItem item={e} />) }
+              { gemsList.map(e => <ListItem key={e.key} item={e} handleClickFavorite={this.handleClickFavorite} />) }
             </div>
         }
       </div>

@@ -36,14 +36,10 @@
   margin: auto;
 }
 
-.hidden {
-  opacity: 0!important;
-}
-
 .main__spinner {
   position: absolute;
   left: 50%;
-  top: calc(50% - 35px);
+  top: calc(50% + 50px);
   margin-top: -20px;
   margin-left: -20px;
 
@@ -53,7 +49,7 @@
 }
 
 .gems__item-container {
-  padding: 10px 45px;
+  padding: 10px 0;
   display: flex;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -82,12 +78,40 @@
 }
 
 .gems__item-left--col {
-  width: 70%;
+  width: 75%;
+}
+
+.gems__item-middle--col {
+  width: 20%;
+  text-align: right;
 }
 
 .gems__item-right--col {
-  width: 30%;
+  width: 5%;
   text-align: right;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+
+.gems__item--star {
+  position: relative;
+  font-size: 1.7em;
+  cursor: pointer;
+  top: 30px;
+
+  &:hover {
+    content: "\2605";
+    color: #ff9f00;
+  }
+}
+
+.gems__item--star-filled {
+  &::before {
+    position: absolute;
+    left: 0;
+    content: "\2605";
+    color: #ff9f00;
+  }
 }
 
 .gems__item-desc {

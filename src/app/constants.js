@@ -1,1 +1,2 @@
 export const REQUEST_GEMS = 'REQUEST_GEMS';
+export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
